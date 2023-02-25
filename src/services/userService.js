@@ -11,8 +11,8 @@ export const createUser = async (newuserBody) => {
 
 export const loginUser = async (userBody) => {
 	try {
-		const response = await createRequest().get(`/login`, userBody);
-		return response.data.data;
+		const response = await createRequest().post(`/login`, userBody);
+		return response.data;
 	} catch (e) {
 		return throwErrors(e);
 	}
