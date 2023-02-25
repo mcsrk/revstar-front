@@ -12,7 +12,7 @@ import prefix from "constants/company-form";
 
 const { Option } = Select;
 
-const CompanyForm = ({ open, setOpen, onCancel }) => {
+const CompanyForm = ({ open, setOpen }) => {
 	const [form] = Form.useForm();
 	const [createLoading, setCreateLoading] = useState(false);
 
@@ -62,7 +62,12 @@ const CompanyForm = ({ open, setOpen, onCancel }) => {
 			title="Crear nueva empresa"
 			okText="Crear empresa"
 			cancelText="Cancelar"
-			onCancel={onCancel}
+			onCancel={() => {
+				setOpen(false);
+				form.resetFields();
+			}}
+			okButtonProps={{ disabled: createLoading }}
+			cancelButtonProps={{ disabled: createLoading }}
 			onOk={() => {
 				form
 					.validateFields()
@@ -71,7 +76,7 @@ const CompanyForm = ({ open, setOpen, onCancel }) => {
 						onCreate(values);
 					})
 					.catch((info) => {
-						console.log("[Company Form] - Validate Failed:", info);
+						console.log("[CompanyForm] - Validate Failed:", info);
 					});
 			}}
 		>

@@ -72,13 +72,7 @@ const Company = () => {
 			/>
 
 			<Table className="mt-8" columns={columns} dataSource={data} />
-			<CompanyForm
-				open={open}
-				setOpen={setOpen}
-				onCancel={() => {
-					setOpen(false);
-				}}
-			/>
+			<CompanyForm open={open} setOpen={setOpen} />
 		</>
 	);
 };
