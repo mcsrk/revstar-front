@@ -59,10 +59,6 @@ const data = [
 ];
 const Company = () => {
 	const [open, setOpen] = useState(false);
-	const onCreate = (values) => {
-		console.log("Received values of form: ", values);
-		setOpen(false);
-	};
 
 	return (
 		<>
@@ -78,7 +74,7 @@ const Company = () => {
 			<Table className="mt-8" columns={columns} dataSource={data} />
 			<CompanyForm
 				open={open}
-				onCreate={onCreate}
+				setOpen={setOpen}
 				onCancel={() => {
 					setOpen(false);
 				}}
