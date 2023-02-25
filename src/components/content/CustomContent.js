@@ -1,4 +1,7 @@
 import { Breadcrumb, Layout } from "antd";
+
+// Componets
+import Company from "./company/Company";
 import Inventory from "./inventory/Inventory";
 
 // Constants
@@ -18,6 +21,7 @@ const CustomContent = ({ colorBgContainer }) => {
 					background: colorBgContainer,
 				}}
 			>
+				<Company />
 				<Inventory />
 			</div>
 		</Content>

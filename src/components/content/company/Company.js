@@ -1,33 +1,27 @@
 import { Button, Table } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
-// Components
+// Componets
 import TableTitle from "components/common/TableTitle";
 
-const Inventory = () => {
+const Company = () => {
 	const columns = [
 		{
-			title: "Producto",
+			title: "Nombre",
 			dataIndex: "name",
 			key: "name",
 		},
 		{
-			title: "Descripción",
-			dataIndex: "description",
-			key: "description",
+			title: "Dirección",
+			dataIndex: "address",
+			key: "address",
 			responsive: ["md"],
 		},
 		{
-			title: "Precio",
-			dataIndex: "price",
-			key: "price",
+			title: "Telefóno",
+			dataIndex: "phone",
+			key: "phone",
 			responsive: ["sm"],
-		},
-		{
-			title: "Cantidad",
-			dataIndex: "stock",
-			key: "stock",
-			responsive: ["xs", "sm"],
 		},
 
 		{
@@ -37,37 +31,38 @@ const Inventory = () => {
 			render: (_, record) => <Button danger ghost icon={<DeleteOutlined />} />,
 		},
 	];
+
 	const data = [
 		{
 			key: "1",
 			name: "John Brown",
-			stock: 32,
-			price: 20.99,
-			description: "New York No. 1 Lake Park",
+			owner_id: 1,
+			address: "New York No. 1 Lake Park",
+			phone: "+573053507",
 		},
 		{
 			key: "2",
 			name: "Jim Green",
-			stock: 42,
-			price: 20.99,
-			description: "London No. 1 Lake Park",
+			owner_id: 1,
+			address: "London No. 1 Lake Park",
+			phone: "+57312454434",
 		},
 		{
 			key: "3",
 			name: "Joe Black",
-			stock: 32,
-			price: 20.99,
-			description: "Sydney No. 1 Lake Park",
+			owner_id: 2,
+			address: "Sydney No. 1 Lake Park",
+			phone: "+5738924603",
 		},
 	];
 
 	return (
 		<>
 			<TableTitle
-				title="Inventario"
-				btnTitle="Crear Articulo"
+				title="Empresas"
+				btnTitle="Crear Empresa"
 				icon={<PlusOutlined />}
-				btnAction={() => console.log("creando articulo")}
+				btnAction={() => console.log("creando empresa")}
 			/>
 
 			<Table className="mt-8" columns={columns} dataSource={data} />
@@ -75,4 +70,4 @@ const Inventory = () => {
 	);
 };
 
-export default Inventory;
+export default Company;
