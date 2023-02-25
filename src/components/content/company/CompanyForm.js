@@ -84,7 +84,7 @@ const CompanyForm = ({ open, setOpen }) => {
 				<Form
 					form={form}
 					layout="vertical"
-					name="form_in_modal"
+					name="create_company"
 					initialValues={{
 						prefix: 57,
 					}}

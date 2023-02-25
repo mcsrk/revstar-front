@@ -70,7 +70,7 @@ const ProductForm = ({ open, setOpen }) => {
 				<Form
 					form={form}
 					layout="vertical"
-					name="form_in_modal"
+					name="create_product"
 					initialValues={{
 						price: 1000,
 						stock: 1,
