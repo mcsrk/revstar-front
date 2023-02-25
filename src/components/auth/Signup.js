@@ -24,7 +24,7 @@ const Signup = () => {
 
 			// setOpen(false); // TODO: Redirect to login
 		} catch (e) {
-			console.log("[Signup] - Error creando usuario");
+			console.log("[Signup] - Error creando usuario", e.response.data.message);
 			openNotification("error", "Error creando usuario.", e.response.data.message);
 		} finally {
 			setSignupLoading(false);
@@ -39,7 +39,7 @@ const Signup = () => {
 		<Card className="max-w-md">
 			<LandingCardHeader heading="Crea un usuario" paragraph="¿Ya tienes un usuario? " linkName="Ingresa" linkUrl="/" />
 			<Spin spinning={signupLoading}>
-				<Form layout="vertical" name="basic" className="w-full bg-white" onFinish={onFinish} autoComplete="off">
+				<Form form={form} layout="vertical" name="signup" className="w-full " onFinish={onFinish} autoComplete="off">
 					<Form.Item
 						name="username"
 						label="Nombre de usuario"

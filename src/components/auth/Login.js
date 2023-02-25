@@ -24,7 +24,7 @@ const Login = () => {
 
 			// setOpen(false); // TODO: Redirect to main
 		} catch (e) {
-			console.log("[Login] - Error iniciando sesión");
+			console.log("[Login] - Error iniciando sesión", e.response.data.message);
 			openNotification("error", "Error iniciando sesión.", e.response.data.message);
 		} finally {
 			setLoginLoading(false);
@@ -44,7 +44,7 @@ const Login = () => {
 				linkUrl="/registro"
 			/>
 			<Spin spinning={loginLoading}>
-				<Form layout="vertical" name="basic" className="w-full bg-white" onFinish={onFinish} autoComplete="off">
+				<Form form={form} layout="vertical" name="login" className="w-full" onFinish={onFinish} autoComplete="off">
 					<Form.Item
 						name="username"
 						label="Nombre de usuario"
