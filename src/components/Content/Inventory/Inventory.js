@@ -1,5 +1,8 @@
 import { Button, Table } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+
+// Components
+import TableTitle from "components/Common/TableTitle";
 
 const Inventory = () => {
 	const columns = [
@@ -59,10 +62,16 @@ const Inventory = () => {
 	];
 
 	return (
-		<div>
-			<h1 className="text-xl  sm:text-2xl font-bold">Inventario</h1>
+		<>
+			<TableTitle
+				title="Inventario"
+				btnTitle="Crear Articulo"
+				icon={<PlusOutlined />}
+				btnAction={() => console.log("creando")}
+			/>
+
 			<Table className="mt-8" columns={columns} dataSource={data} />
-		</div>
+		</>
 	);
 };
 
