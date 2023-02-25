@@ -1,4 +1,4 @@
-import { createRequest, throwErrors } from "./globalServices";
+import { createRequest, throwErrors } from "./globalService";
 
 export const createProduct = async (inventoryId, productBody) => {
 	try {
