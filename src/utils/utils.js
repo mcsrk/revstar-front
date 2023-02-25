@@ -4,6 +4,6 @@ export const openNotification = (type, title, description = null) => {
 	notification[type]({
 		message: title,
 		description: description,
-		duration: 3,
+		duration: 5,
 	});
 };
