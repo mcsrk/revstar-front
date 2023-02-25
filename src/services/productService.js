@@ -12,7 +12,7 @@ export const createProduct = async (inventoryId, productBody) => {
 export const getProdcutsByInventory = async (inventoryId) => {
 	try {
 		const response = await createRequest().get(`/inventories/${inventoryId}/products`);
-		return response.data.data;
+		return response.data;
 	} catch (e) {
 		return throwErrors(e);
 	}
