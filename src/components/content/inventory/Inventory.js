@@ -39,6 +39,7 @@ const columns = [
 		render: (_, record) => <Button danger ghost icon={<DeleteOutlined />} />,
 	},
 ];
+
 const data = [
 	{
 		key: "1",
@@ -62,12 +63,9 @@ const data = [
 		description: "Sydney No. 1 Lake Park",
 	},
 ];
+
 const Inventory = () => {
 	const [open, setOpen] = useState(false);
-	const onCreate = (values) => {
-		console.log("Received values of form: ", values);
-		setOpen(false);
-	};
 
 	return (
 		<>
@@ -81,13 +79,7 @@ const Inventory = () => {
 			/>
 
 			<Table className="mt-8" columns={columns} dataSource={data} />
-			<ProductForm
-				open={open}
-				onCreate={onCreate}
-				onCancel={() => {
-					setOpen(false);
-				}}
-			/>
+			<ProductForm open={open} setOpen={setOpen} />
 		</>
 	);
 };
