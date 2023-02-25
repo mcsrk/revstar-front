@@ -4,9 +4,9 @@ import { Layout, theme } from "antd";
 import "./index.css";
 
 // Components
-import CustomHeader from "components/Header/CustomHeader";
-import CustomContent from "components/Content/CustomContent";
-import CustomFooter from "components/Footer/CustomFooter";
+import CustomHeader from "components/header/CustomHeader";
+import CustomContent from "components/content/CustomContent";
+import CustomFooter from "components/footer/CustomFooter";
 
 function App() {
 	const {

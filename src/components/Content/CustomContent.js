@@ -1,5 +1,5 @@
 import { Breadcrumb, Layout } from "antd";
-import Inventory from "./Inventory/Inventory";
+import Inventory from "./inventory/Inventory";
 
 // Constants
 const { Content } = Layout;

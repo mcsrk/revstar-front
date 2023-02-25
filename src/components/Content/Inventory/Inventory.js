@@ -2,7 +2,7 @@ import { Button, Table } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
 // Components
-import TableTitle from "components/Common/TableTitle";
+import TableTitle from "components/common/TableTitle";
 
 const Inventory = () => {
 	const columns = [
