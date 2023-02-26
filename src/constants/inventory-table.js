@@ -29,12 +29,5 @@ const iventory_table_cols = [
 		key: "stock",
 		responsive: ["xs", "sm"],
 	},
-
-	{
-		title: "Acción",
-		key: "action",
-		width: "5%",
-		render: (_, record) => <Button danger ghost icon={<DeleteOutlined />} />,
-	},
 ];
 export default iventory_table_cols;
