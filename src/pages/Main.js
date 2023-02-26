@@ -1,13 +1,13 @@
 import { Breadcrumb, Layout } from "antd";
 
 // Componets
-import Company from "./company/Company";
-import Inventory from "./inventory/Inventory";
+import Company from "../components/content/company/Company";
+import Inventory from "../components/content/inventory/Inventory";
 
 // Constants
 const { Content } = Layout;
 
-const CustomContent = ({ colorBgContainer }) => {
+const Main = ({ colorBgContainer }) => {
 	return (
 		<Content className="px-6 sm:px-12">
 			<Breadcrumb className="my-4">
@@ -28,4 +28,4 @@ const CustomContent = ({ colorBgContainer }) => {
 	);
 };
 
-export default CustomContent;
+export default Main;

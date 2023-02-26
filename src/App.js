@@ -5,8 +5,8 @@ import "./index.css";
 
 // Components
 import CustomHeader from "components/header/CustomHeader";
-import CustomContent from "components/content/CustomContent";
 import CustomFooter from "components/footer/CustomFooter";
+import Main from "pages/Main";
 
 function App() {
 	const {
@@ -15,7 +15,7 @@ function App() {
 	return (
 		<Layout className="layout">
 			<CustomHeader />
-			<CustomContent colorBgContainer={colorBgContainer} />
+			<Main colorBgContainer={colorBgContainer} />
 			<CustomFooter />
 		</Layout>
 	);
