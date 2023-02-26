@@ -15,7 +15,7 @@ const company_table_cols = [
 		key: "address",
 		responsive: ["md"],
 		render: (_, record) => {
-			return record.address ?? <p className="italic text-gray-400 m-0">Sin datos</p>;
+			return record?.address ? record.address : <p className="italic text-gray-400 m-0">Sin datos</p>;
 		},
 	},
 	{
@@ -24,7 +24,7 @@ const company_table_cols = [
 		key: "phone",
 		responsive: ["sm"],
 		render: (_, record) => {
-			return record.phone ?? <p className="italic text-gray-400 m-0">Sin datos</p>;
+			return record?.phone ? record.phone : <p className="italic text-gray-400 m-0">Sin datos</p>;
 		},
 	},
 ];
