@@ -1,45 +1,13 @@
 import { useState } from "react";
-import { Button, Table } from "antd";
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { Table } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 
 // Components
 import TableTitle from "components/common/TableTitle";
 import ProductForm from "./ProductForm";
+import iventory_table_cols from "constants/inventory-table";
 
-// Costansts
-const columns = [
-	{
-		title: "Producto",
-		dataIndex: "name",
-		key: "name",
-	},
-	{
-		title: "Descripción",
-		dataIndex: "description",
-		key: "description",
-		responsive: ["md"],
-	},
-	{
-		title: "Precio",
-		dataIndex: "price",
-		key: "price",
-		responsive: ["sm"],
-	},
-	{
-		title: "Cantidad",
-		dataIndex: "stock",
-		key: "stock",
-		responsive: ["xs", "sm"],
-	},
-
-	{
-		title: "Acción",
-		key: "action",
-		width: "5%",
-		render: (_, record) => <Button danger ghost icon={<DeleteOutlined />} />,
-	},
-];
-
+import { getUserData } from "services/userService";
 const data = [
 	{
 		key: "1",
@@ -65,6 +33,8 @@ const data = [
 ];
 
 const Inventory = () => {
+	const { is_admin } = getUserData();
+
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -72,13 +42,14 @@ const Inventory = () => {
 			<TableTitle
 				title="Inventario"
 				btnTitle="Crear Articulo"
+				allowAction={is_admin}
 				icon={<PlusOutlined />}
 				btnAction={() => {
 					setOpen(true);
 				}}
 			/>
 
-			<Table className="mt-8" columns={columns} dataSource={data} />
+			<Table className="mt-8" columns={iventory_table_cols} dataSource={data} />
 			<ProductForm open={open} setOpen={setOpen} />
 		</>
 	);
