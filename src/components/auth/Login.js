@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { Button, Card, Form, Input, Spin } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+
+// Auth
+import jwt_decode from "jwt-decode";
+
 // Components
 import LandingCardHeader from "components/common/LandingCardHeader";
 
@@ -10,19 +14,21 @@ import { loginUser } from "services/userService";
 // Utils
 import { openNotification } from "utils/utils";
 
-const Login = () => {
+const Login = ({ setUserInfo }) => {
 	const [form] = Form.useForm();
 	const [loginLoading, setLoginLoading] = useState(false);
 
 	const handleLogin = async (username, password) => {
 		setLoginLoading(true);
 		try {
-			await loginUser(username, password);
+			const token = await loginUser(username, password);
 
 			openNotification("success", "Bienvenido!");
 			form.resetFields();
 
-			// setOpen(false); // TODO: Redirect to main
+			// decode user info such id, username and is_admin from backend generated jwtoken
+			const userData = jwt_decode(token);
+			setUserInfo(userData);
 		} catch (e) {
 			console.log("[Login] - Error iniciando sesión", e.response.data);
 			openNotification("error", "Error iniciando sesión.", e.response.data.message);

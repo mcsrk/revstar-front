@@ -7,7 +7,7 @@ import Signup from "components/auth/Signup";
 // Constants
 const { Content } = Layout;
 
-const Auth = ({ children }) => {
+const Auth = ({ setUserInfo, children }) => {
 	const token = localStorage.getItem("token");
 
 	return (
@@ -17,7 +17,7 @@ const Auth = ({ children }) => {
 					<>{children}</>
 				) : (
 					<>
-						<Login />
+						<Login setUserInfo={setUserInfo} />
 						<Signup />
 					</>
 				)}

@@ -23,6 +23,7 @@ export const loginUser = async (username, password) => {
 		);
 		localStorage.setItem("token", response.data);
 		window.location.reload();
+		return response.data;
 	} catch (e) {
 		return throwErrors(e);
 	}

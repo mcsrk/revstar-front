@@ -1,3 +1,4 @@
+import { createContext, useEffect, useState } from "react";
 import { Layout, theme } from "antd";
 
 // Styles
@@ -13,14 +14,24 @@ function App() {
 	const {
 		token: { colorBgContainer },
 	} = theme.useToken();
+
+	const UserContext = createContext();
+	const [userInfo, setUserInfo] = useState(null);
+
+	useEffect(() => {
+		console.log(userInfo);
+	}, [userInfo]);
+
 	return (
-		<Auth>
-			{/* <Router history={createBrowserHistory()}> */}
-			<Layout className="layout">
-				<CustomHeader />
-				<Main colorBgContainer={colorBgContainer} />
-				<CustomFooter />
-			</Layout>
+		<Auth setUserInfo={setUserInfo}>
+			<UserContext.Provider value={userInfo}>
+				{/* <Router history={createBrowserHistory()}> */}
+				<Layout className="layout">
+					<CustomHeader />
+					<Main colorBgContainer={colorBgContainer} />
+					<CustomFooter />
+				</Layout>
+			</UserContext.Provider>
 			{/* </Router> */}
 		</Auth>
 	);
