@@ -20,8 +20,8 @@ const Main = ({ colorBgContainer }) => {
 				}}
 			>
 				<Routes>
-					<Route path="/inventory" element={<Inventory />} />
 					<Route path="/companies" element={<Company />} />
+					<Route path="/companies/:company_nit/inventory" element={<Inventory />} />
 					<Route path="/" element={<Navigate replace to="/companies" />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
