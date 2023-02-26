@@ -1,28 +1,28 @@
-import { Breadcrumb, Layout } from "antd";
+import loadable from "@loadable/component";
+import { Layout } from "antd";
 
-// Componets
-import Company from "../components/content/company/Company";
-import Inventory from "../components/content/inventory/Inventory";
+import { Route, Routes } from "react-router";
 
 // Constants
 const { Content } = Layout;
+// Componets
+const Company = loadable(() => import("../components/content/company/Company"));
+const Inventory = loadable(() => import("../components/content/inventory/Inventory"));
 
 const Main = ({ colorBgContainer }) => {
 	return (
-		<Content className="px-6 sm:px-12">
-			<Breadcrumb className="my-4">
-				<Breadcrumb.Item>Home</Breadcrumb.Item>
-				<Breadcrumb.Item>List</Breadcrumb.Item>
-				<Breadcrumb.Item>App</Breadcrumb.Item>
-			</Breadcrumb>
+		<Content className="px-6 py-6 sm:px-12">
 			<div
 				className="min-h-screen p-4 sm:p-6"
 				style={{
 					background: colorBgContainer,
 				}}
 			>
-				<Company />
-				<Inventory />
+				<Routes>
+					<Route path="/inventory" element={<Inventory />} />
+					<Route path="/companies" element={<Company />} />
+					{/* <Route path="*" element={<NoMatch />} /> */}
+				</Routes>
 			</div>
 		</Content>
 	);
