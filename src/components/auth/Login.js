@@ -15,24 +15,25 @@ const Login = () => {
 	const [form] = Form.useForm();
 	const [loginLoading, setLoginLoading] = useState(false);
 
-	const handleLogin = async (userBody) => {
+	const handleLogin = async (username, password) => {
 		setLoginLoading(true);
 		try {
-			await loginUser(userBody);
+			await loginUser(username, password);
+
 			openNotification("success", "Bienvenido!");
 			form.resetFields();
 
 			// setOpen(false); // TODO: Redirect to main
 		} catch (e) {
-			console.log("[Login] - Error iniciando sesión", e.response.data.message);
+			console.log("[Login] - Error iniciando sesión", e.response.data);
 			openNotification("error", "Error iniciando sesión.", e.response.data.message);
 		} finally {
 			setLoginLoading(false);
 		}
 	};
 
-	const onFinish = (userData) => {
-		handleLogin(userData);
+	const onFinish = (values) => {
+		handleLogin(values.username.trim(), values.password.trim());
 	};
 
 	return (

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Form, Input, Spin, Switch } from "antd";
+import { Button, Card, Checkbox, Form, Input, Spin } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 // Components
@@ -15,10 +15,10 @@ const Signup = () => {
 	const [form] = Form.useForm();
 	const [signupLoading, setSignupLoading] = useState(false);
 
-	const handleCreateUser = async (userBody) => {
+	const handleCreateUser = async (newuserBody) => {
 		setSignupLoading(true);
 		try {
-			await createUser(userBody);
+			await createUser(newuserBody);
 			openNotification("success", "Usuario creado!");
 			form.resetFields();
 
@@ -31,15 +31,29 @@ const Signup = () => {
 		}
 	};
 
-	const onFinish = (userData) => {
-		handleCreateUser(userData);
+	const onFinish = (values) => {
+		const newUserData = {
+			username: btoa(values?.username.trim()),
+			password: btoa(values?.password.trim()),
+			is_admin: btoa(values?.is_admin ?? false),
+		};
+
+		handleCreateUser(newUserData);
 	};
 
 	return (
 		<Card className="max-w-md">
 			<LandingCardHeader heading="Crea un usuario" paragraph="¿Ya tienes un usuario? " linkName="Ingresa" linkUrl="/" />
 			<Spin spinning={signupLoading}>
-				<Form form={form} layout="vertical" name="signup" className="w-full " onFinish={onFinish} autoComplete="off">
+				<Form
+					form={form}
+					layout="vertical"
+					name="signup"
+					className="w-full "
+					onFinish={onFinish}
+					autoComplete="off"
+					initialValues={{ is_admin: false }}
+				>
 					<Form.Item
 						name="username"
 						label="Nombre de usuario"
@@ -65,8 +79,9 @@ const Signup = () => {
 					>
 						<Input.Password placeholder="123456" prefix={<LockOutlined className="site-form-item-icon" />} />
 					</Form.Item>
-					<Form.Item name="is_admin" label="¿Eres administrador?" className="w-full items-center">
-						<Switch />
+
+					<Form.Item name="is_admin" valuePropName="checked">
+						<Checkbox>¿Eres administrador?</Checkbox>
 					</Form.Item>
 
 					<Form.Item>
