@@ -12,7 +12,6 @@ const CustomHeader = () => {
 	return (
 		<Header className="flex justify-between items-center px-4 sm:px-6">
 			<div className="w-5/6 flex flex-row items-center">
-				<div className="w-32 h-7 my-4 mr-6 bg-blue-900 float-left" />
 				<Menu
 					className="w-full"
 					theme="dark"
