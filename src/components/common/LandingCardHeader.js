@@ -1,5 +1,3 @@
-import React from "react";
-
 const LandingCardHeader = ({ heading, paragraph, linkName, linkUrl }) => {
 	return (
 		<div className="mb-10">
