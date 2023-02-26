@@ -1,38 +1,13 @@
 import { useState } from "react";
-import { Button, Table } from "antd";
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { Table } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 
 // Componets
 import TableTitle from "components/common/TableTitle";
 import CompanyForm from "./CompanyForm";
 
 // Costansts
-const columns = [
-	{
-		title: "Nombre",
-		dataIndex: "name",
-		key: "name",
-	},
-	{
-		title: "Dirección",
-		dataIndex: "address",
-		key: "address",
-		responsive: ["md"],
-	},
-	{
-		title: "Telefóno",
-		dataIndex: "phone",
-		key: "phone",
-		responsive: ["sm"],
-	},
-
-	{
-		title: "Acción",
-		key: "action",
-		width: "5%",
-		render: (_, record) => <Button danger ghost icon={<DeleteOutlined />} />,
-	},
-];
+import company_table_cols from "constants/company-table";
 
 const data = [
 	{
@@ -71,7 +46,7 @@ const Company = () => {
 				}}
 			/>
 
-			<Table className="mt-8" columns={columns} dataSource={data} />
+			<Table className="mt-8" columns={company_table_cols} dataSource={data} />
 			<CompanyForm open={open} setOpen={setOpen} />
 		</>
 	);
