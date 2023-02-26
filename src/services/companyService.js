@@ -9,6 +9,15 @@ export const getAllCompanies = async () => {
 	}
 };
 
+export const getCompaniesByUser = async (userId) => {
+	try {
+		const response = await createRequest().get(`/users/${userId}/companies`);
+		return response.data;
+	} catch (e) {
+		return throwErrors(e);
+	}
+};
+
 export const createCompany = async (companyBody) => {
 	try {
 		const response = await createRequest().post(`/companies`, companyBody);
