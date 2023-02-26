@@ -12,12 +12,18 @@ const company_table_cols = [
 		dataIndex: "address",
 		key: "address",
 		responsive: ["md"],
+		render: (_, record) => {
+			return record.address ?? <p className="italic text-gray-400 m-0">Sin datos</p>;
+		},
 	},
 	{
 		title: "Telefóno",
 		dataIndex: "phone",
 		key: "phone",
 		responsive: ["sm"],
+		render: (_, record) => {
+			return record.phone ?? <p className="italic text-gray-400 m-0">Sin datos</p>;
+		},
 	},
 
 	{
