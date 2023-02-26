@@ -7,12 +7,20 @@ import Signup from "components/auth/Signup";
 // Constants
 const { Content } = Layout;
 
-const Auth = () => {
+const Auth = ({ children }) => {
+	const token = localStorage.getItem("token");
+
 	return (
-		<Content className="px-6 sm:px-12">
-			<div className="min-h-screen p-4 sm:p-6">
-				<Login />
-				<Signup />
+		<Content>
+			<div className="min-h-screen ">
+				{token ? (
+					<>{children}</>
+				) : (
+					<>
+						<Login />
+						<Signup />
+					</>
+				)}
 			</div>
 		</Content>
 	);

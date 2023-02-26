@@ -7,17 +7,22 @@ import "./index.css";
 import CustomHeader from "components/header/CustomHeader";
 import CustomFooter from "components/footer/CustomFooter";
 import Main from "pages/Main";
+import Auth from "pages/Auth";
 
 function App() {
 	const {
 		token: { colorBgContainer },
 	} = theme.useToken();
 	return (
-		<Layout className="layout">
-			<CustomHeader />
-			<Main colorBgContainer={colorBgContainer} />
-			<CustomFooter />
-		</Layout>
+		<Auth>
+			{/* <Router history={createBrowserHistory()}> */}
+			<Layout className="layout">
+				<CustomHeader />
+				<Main colorBgContainer={colorBgContainer} />
+				<CustomFooter />
+			</Layout>
+			{/* </Router> */}
+		</Auth>
 	);
 }
 
