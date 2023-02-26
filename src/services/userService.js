@@ -1,5 +1,8 @@
 import { createRequest, throwErrors } from "./globalService";
 
+// Auth
+import jwt_decode from "jwt-decode";
+
 export const createUser = async (newuserBody) => {
 	try {
 		const response = await createRequest().post(`/users`, newuserBody);
@@ -21,12 +24,26 @@ export const loginUser = async (username, password) => {
 				},
 			}
 		);
-		localStorage.setItem("token", response.data);
+		const token = response.data;
+
+		localStorage.setItem("token", token);
+
+		// decode user info such id, username and is_admin from backend generated jwtoken
+		const userData = jwt_decode(token);
+		localStorage.setItem("user", JSON.stringify(userData));
+
 		window.location.reload();
-		return response.data;
 	} catch (e) {
 		return throwErrors(e);
 	}
+};
+
+export const getToken = () => {
+	return localStorage.getItem("token");
+};
+
+export const getUserData = () => {
+	return JSON.parse(localStorage.getItem("user"));
 };
 
 export const logOutUser = async () => {
