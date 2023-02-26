@@ -1,26 +1,29 @@
-import logo from "./logo.svg";
-import "./App.css";
+import { Layout, theme } from "antd";
+
+// Styles
+import "./index.css";
+
+// Components
+import CustomHeader from "components/header/CustomHeader";
+import CustomFooter from "components/footer/CustomFooter";
+import Main from "pages/Main";
+import Auth from "pages/Auth";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <h1 className="text-3xl font-thin underline">Hello world!</h1>
-      </header>
-    </div>
-  );
+	const {
+		token: { colorBgContainer },
+	} = theme.useToken();
+	return (
+		<Auth>
+			{/* <Router history={createBrowserHistory()}> */}
+			<Layout className="layout">
+				<CustomHeader />
+				<Main colorBgContainer={colorBgContainer} />
+				<CustomFooter />
+			</Layout>
+			{/* </Router> */}
+		</Auth>
+	);
 }
 
 export default App;
