@@ -1,8 +1,10 @@
-import { Button } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
-
 // Costansts
 const iventory_table_cols = [
+	{
+		title: "Id",
+		dataIndex: "id",
+		key: "id",
+	},
 	{
 		title: "Producto",
 		dataIndex: "name",
@@ -14,7 +16,7 @@ const iventory_table_cols = [
 		key: "description",
 		responsive: ["md"],
 		render: (_, record) => {
-			return record.description ?? <p className="italic text-gray-400 m-0">Sin descripción</p>;
+			return record.description ? record.description : <p className="italic text-gray-400 m-0">Sin descripción</p>;
 		},
 	},
 	{
