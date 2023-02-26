@@ -1,13 +1,14 @@
 import loadable from "@loadable/component";
 import { Layout } from "antd";
 
-import { Route, Routes } from "react-router";
+import { Route, Routes, Navigate } from "react-router-dom";
 
 // Constants
 const { Content } = Layout;
 // Componets
 const Company = loadable(() => import("../components/content/company/Company"));
 const Inventory = loadable(() => import("../components/content/inventory/Inventory"));
+const NotFound = loadable(() => import("../components/content/notFound/NotFound"));
 
 const Main = ({ colorBgContainer }) => {
 	return (
@@ -19,9 +20,10 @@ const Main = ({ colorBgContainer }) => {
 				}}
 			>
 				<Routes>
-					<Route path="/inventory" element={<Inventory />} />
 					<Route path="/companies" element={<Company />} />
-					{/* <Route path="*" element={<NoMatch />} /> */}
+					<Route path="/companies/:company_nit/inventory" element={<Inventory />} />
+					<Route path="/" element={<Navigate replace to="/companies" />} />
+					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</div>
 		</Content>

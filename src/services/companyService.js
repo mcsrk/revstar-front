@@ -36,9 +36,9 @@ export const updateCompany = async (companyId, companyBody) => {
 	}
 };
 
-export const deleteCompany = async (companyId) => {
+export const deleteCompany = async (nit) => {
 	try {
-		const response = await createRequest().delete(`/companies/${companyId}`);
+		const response = await createRequest().delete(`/companies/${nit}`);
 		return response.data;
 	} catch (e) {
 		return throwErrors(e);
