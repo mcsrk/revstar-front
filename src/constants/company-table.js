@@ -1,7 +1,9 @@
-import { Button } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
-
 const company_table_cols = [
+	{
+		title: "Nit",
+		dataIndex: "nit",
+		key: "nit",
+	},
 	{
 		title: "Nombre",
 		dataIndex: "name",
@@ -24,13 +26,6 @@ const company_table_cols = [
 		render: (_, record) => {
 			return record.phone ?? <p className="italic text-gray-400 m-0">Sin datos</p>;
 		},
-	},
-
-	{
-		title: "Acción",
-		key: "action",
-		width: "5%",
-		render: (_, record) => <Button danger ghost icon={<DeleteOutlined />} />,
 	},
 ];
 
