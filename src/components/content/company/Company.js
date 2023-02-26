@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { Button, Table } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
+// Router
+import { useNavigate } from "react-router";
+
 // Componets
 import TableTitle from "components/common/TableTitle";
 import CompanyForm from "./CompanyForm";
@@ -17,6 +20,8 @@ import { openNotification } from "utils/utils";
 import company_table_cols from "constants/company-table";
 
 const Company = () => {
+	const navigate = useNavigate();
+
 	const { id, is_admin } = getUserData();
 
 	const [open, setOpen] = useState(false);
@@ -92,6 +97,11 @@ const Company = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [id]);
 
+	const handleClickRow = (row) => {
+		const { key } = row;
+		navigate(`/companies/${key}/inventory`);
+	};
+
 	return (
 		<>
 			<TableTitle
@@ -104,7 +114,19 @@ const Company = () => {
 				}}
 			/>
 
-			<Table loading={companiesLoading} className="mt-8" columns={columns} dataSource={companies} />
+			<Table
+				onRow={(row) => {
+					return {
+						onClick: () => {
+							handleClickRow(row);
+						},
+					};
+				}}
+				loading={companiesLoading}
+				className="mt-8"
+				columns={columns}
+				dataSource={companies}
+			/>
 			<CompanyForm open={open} setOpen={setOpen} />
 		</>
 	);
