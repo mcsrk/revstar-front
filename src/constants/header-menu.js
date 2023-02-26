@@ -1,10 +1,11 @@
 import { ShopOutlined, GoldOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const sidebar_menu = {
 	default: "1",
 	items: [
-		{ key: 1, label: "Empresas", icon: <ShopOutlined /> },
-		{ key: 2, label: "Inventarios", icon: <GoldOutlined /> },
+		{ key: 1, label: <Link to="/companies">Empresas</Link>, icon: <ShopOutlined /> },
+		{ key: 2, label: <Link to="/inventory">Inventarios</Link>, icon: <GoldOutlined /> },
 	],
 };
 

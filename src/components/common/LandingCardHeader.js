@@ -1,16 +1,18 @@
-const LandingCardHeader = ({ heading, paragraph, linkName, linkUrl }) => {
+import { Button, Row } from "antd";
+
+const LandingCardHeader = ({ heading, paragraph, linkName, onClick }) => {
 	return (
 		<div className="mb-10">
-			<div className="flex justify-center">
+			<Row justify="center">
 				<img alt="" className="h-14 w-14" src="https://miro.medium.com/max/300/1*JY-JZfN8GW_OsJoVrI7wBg.png" />
-			</div>
+			</Row>
 			<h2 className="mt-6 text-center text-2xl font-extrabold text-gray-900">{heading}</h2>
-			{/* TODO: replace p tag with <Link></Link> from react router */}
+
 			<p className="mt-2 text-center text-sm text-gray-600">
 				{paragraph}
-				<span to={linkUrl} className="font-medium text-cyan-600 hover:text-cyan-500 cursor-pointer">
+				<Button type="link" onClick={onClick}>
 					{linkName}
-				</span>
+				</Button>
 			</p>
 		</div>
 	);

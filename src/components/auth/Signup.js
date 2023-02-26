@@ -5,13 +5,13 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 // Components
 import LandingCardHeader from "components/common/LandingCardHeader";
 
-// Service
+// Services
 import { createUser } from "services/userService";
 
 // Utils
 import { openNotification } from "utils/utils";
 
-const Signup = () => {
+const Signup = ({ setCurrentTab }) => {
 	const [form] = Form.useForm();
 	const [signupLoading, setSignupLoading] = useState(false);
 
@@ -22,7 +22,7 @@ const Signup = () => {
 			openNotification("success", "Usuario creado!");
 			form.resetFields();
 
-			// setOpen(false); // TODO: Redirect to login
+			setCurrentTab("LOGIN");
 		} catch (e) {
 			console.log("[Signup] - Error creando usuario", e.response.data.message);
 			openNotification("error", "Error creando usuario.", e.response.data.message);
@@ -42,8 +42,13 @@ const Signup = () => {
 	};
 
 	return (
-		<Card className="max-w-md">
-			<LandingCardHeader heading="Crea un usuario" paragraph="¿Ya tienes un usuario? " linkName="Ingresa" linkUrl="/" />
+		<Card className="max-w-md mx-auto">
+			<LandingCardHeader
+				heading="Crea un usuario"
+				paragraph="¿Ya tienes un usuario? "
+				linkName="Ingresa"
+				onClick={() => setCurrentTab("LOGIN")}
+			/>
 			<Spin spinning={signupLoading}>
 				<Form
 					form={form}
