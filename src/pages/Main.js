@@ -1,7 +1,7 @@
 import loadable from "@loadable/component";
 import { Layout } from "antd";
 
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 // Constants
 const { Content } = Layout;
@@ -22,7 +22,6 @@ const Main = ({ colorBgContainer }) => {
 				<Routes>
 					<Route path="/companies" element={<Company />} />
 					<Route path="/companies/:company_nit/inventory" element={<Inventory />} />
-					<Route path="/" element={<Navigate replace to="/companies" />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</div>
