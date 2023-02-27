@@ -5,5 +5,6 @@ export const openNotification = (type, title, description = null) => {
 		message: title,
 		description: description,
 		duration: 5,
+		placement: "bottomRight",
 	});
 };
