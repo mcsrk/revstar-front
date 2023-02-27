@@ -73,7 +73,7 @@ const ProductsTable = ({ inventoryId, name }) => {
 					Regresar
 				</Button>
 
-				<ExportPdf inventoryId={inventoryId} />
+				{isAdmin && <ExportPdf inventoryId={inventoryId} />}
 			</Row>
 			<TableTitle
 				title={`Inventario: ${name}`}
