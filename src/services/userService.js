@@ -1,7 +1,6 @@
-import { createRequest, throwErrors } from "./globalService";
-
-// Auth
 import jwt_decode from "jwt-decode";
+
+import { createRequest, throwErrors } from "./globalService";
 
 export const createUser = async (newuserBody) => {
 	try {
@@ -12,7 +11,7 @@ export const createUser = async (newuserBody) => {
 	}
 };
 
-export const loginUser = async (username, password) => {
+export const loginUser = async (username, password, navigate) => {
 	try {
 		const response = await createRequest().post(
 			`/login`,
@@ -32,6 +31,7 @@ export const loginUser = async (username, password) => {
 		const userData = jwt_decode(token);
 		localStorage.setItem("user", JSON.stringify(userData));
 
+		navigate("/companies", { replace: true });
 		window.location.reload();
 	} catch (e) {
 		return throwErrors(e);
@@ -46,7 +46,8 @@ export const getUserData = () => {
 	return JSON.parse(localStorage.getItem("user"));
 };
 
-export const logOutUser = async () => {
-	localStorage.clear();
+export const logOutUser = (navigate) => {
+	navigate("/", { replace: true });
 	window.location.reload();
+	localStorage.clear();
 };
