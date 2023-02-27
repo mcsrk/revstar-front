@@ -17,3 +17,15 @@ export const getProdcutsByInventory = async (inventoryId) => {
 		return throwErrors(e);
 	}
 };
+
+export const sendInventoryPdfToEmail = async (company_nit, inventoryId, body) => {
+	try {
+		const response = await createRequest().post(
+			`/companies/${company_nit}/inventories/${inventoryId}/export-data`,
+			body
+		);
+		return response.data;
+	} catch (e) {
+		return throwErrors(e);
+	}
+};

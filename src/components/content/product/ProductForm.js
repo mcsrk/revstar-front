@@ -10,7 +10,7 @@ import { openNotification } from "utils/utils";
 // Constanst
 const { TextArea } = Input;
 
-const ProductForm = ({ open, setOpen }) => {
+const ProductForm = ({ open, setOpen, reloadProducts, inventoryId }) => {
 	const [form] = Form.useForm();
 	const [createLoading, setCreateLoading] = useState(false);
 
@@ -18,7 +18,9 @@ const ProductForm = ({ open, setOpen }) => {
 		setCreateLoading(true);
 		try {
 			await createProduct(inventoryId, productBody);
-			// getPatientTasks(userId); //TODO: Reload products
+
+			reloadProducts();
+
 			openNotification("success", "Producto creado!");
 			form.resetFields();
 
@@ -39,8 +41,7 @@ const ProductForm = ({ open, setOpen }) => {
 			description: values?.description ?? null,
 		};
 		console.log(productBody);
-		// TODO: Send real Inventory Id
-		handleCreateProduct(1, productBody);
+		handleCreateProduct(inventoryId, productBody);
 	};
 
 	return (

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Table } from "antd";
+import { Button, Row, Table } from "antd";
 import { PlusOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 
 // Router
@@ -18,6 +18,7 @@ import iventory_table_cols from "constants/inventory-table";
 
 //Utils
 import { openNotification } from "utils/utils";
+import ExportPdf from "./ExportPdf";
 
 const ProductsTable = ({ inventoryId, name }) => {
 	const navigate = useNavigate();
@@ -25,7 +26,7 @@ const ProductsTable = ({ inventoryId, name }) => {
 	const [productsLoading, setProductsLoading] = useState(false);
 	const [products, setProducts] = useState([]);
 
-	const { is_admin } = getUserData();
+	const isAdmin = getUserData().is_admin;
 
 	const [open, setOpen] = useState(false);
 
@@ -34,13 +35,11 @@ const ProductsTable = ({ inventoryId, name }) => {
 		try {
 			const res = await getProdcutsByInventory(inventoryId);
 			const updatedRes = res.map((product) => ({
-				key: product.nit,
+				key: product.id,
 				...product,
 			}));
 			setProducts(updatedRes);
-			if (updatedRes.length) {
-				openNotification("success", "Productos obtenidos!");
-			} else {
+			if (!updatedRes.length) {
 				openNotification("info", "Sin productos");
 			}
 		} catch (e) {
@@ -50,27 +49,36 @@ const ProductsTable = ({ inventoryId, name }) => {
 			setProductsLoading(false);
 		}
 	};
+
+	const reloadProducts = () => {
+		handleGetProducts(inventoryId);
+	};
+
 	useEffect(() => {
 		handleGetProducts(inventoryId);
 	}, [inventoryId]);
 
 	return (
 		<>
-			<Button
-				className="mb-2"
-				ghost
-				type="primary"
-				onClick={() => {
-					navigate(`/companies`);
-				}}
-				icon={<ArrowLeftOutlined />}
-			>
-				Regresar
-			</Button>
+			<Row justify="space-between">
+				<Button
+					className="mb-2"
+					ghost
+					type="primary"
+					onClick={() => {
+						navigate(`/companies`);
+					}}
+					icon={<ArrowLeftOutlined />}
+				>
+					Regresar
+				</Button>
+
+				{isAdmin && <ExportPdf inventoryId={inventoryId} />}
+			</Row>
 			<TableTitle
 				title={`Inventario: ${name}`}
 				btnTitle="Crear Articulo"
-				allowAction={is_admin}
+				allowAction={isAdmin}
 				icon={<PlusOutlined />}
 				btnAction={() => {
 					setOpen(true);
@@ -78,7 +86,7 @@ const ProductsTable = ({ inventoryId, name }) => {
 			/>
 
 			<Table className="mt-8" columns={iventory_table_cols} dataSource={products} loading={productsLoading} />
-			<ProductForm open={open} setOpen={setOpen} />
+			<ProductForm open={open} setOpen={setOpen} reloadProducts={reloadProducts} inventoryId={inventoryId} />
 		</>
 	);
 };

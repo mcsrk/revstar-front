@@ -9,20 +9,23 @@ import { openNotification } from "utils/utils";
 
 // Constants
 import prefix from "constants/company-form";
+import { getUserData } from "services/userService";
 
 const { Option } = Select;
 
-const CompanyForm = ({ open, setOpen }) => {
+const CompanyForm = ({ open, setOpen, reloadCompanies }) => {
 	const [form] = Form.useForm();
+	const id = getUserData()?.id;
+
 	const [createLoading, setCreateLoading] = useState(false);
 
-	const handleCreateCompany = async (userId, taskBody) => {
+	const handleCreateCompany = async (companyBody) => {
 		setCreateLoading(true);
 		try {
-			await createCompany(userId, taskBody);
-			// getPatientTasks(userId); //TODO: Reload companies
+			await createCompany(companyBody);
+			reloadCompanies();
 			openNotification("success", "Empresa creada!");
-			// form.resetFields();
+			form.resetFields();
 			setOpen(false);
 		} catch (e) {
 			console.log("[Company Form] - Error creando empresa");
@@ -35,8 +38,9 @@ const CompanyForm = ({ open, setOpen }) => {
 	const onCreate = (values) => {
 		const companyBody = {
 			nit: values.nit,
-			owner_id: 1, // TODO: use current uid
+			owner_id: id,
 			name: values.name,
+			// Nullable fields
 			address: values?.address ?? null,
 			phone: values?.phone ? "+" + values.prefix + values?.phone : null,
 		};
@@ -72,7 +76,6 @@ const CompanyForm = ({ open, setOpen }) => {
 				form
 					.validateFields()
 					.then((values) => {
-						form.resetFields();
 						onCreate(values);
 					})
 					.catch((info) => {

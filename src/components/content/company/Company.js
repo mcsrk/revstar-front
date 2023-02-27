@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Button, Table } from "antd";
-import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, Popconfirm, Table } from "antd";
+import { DeleteOutlined, PlusOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 
 // Router
 import { useNavigate } from "react-router";
@@ -22,7 +22,8 @@ import company_table_cols from "constants/company-table";
 const Company = () => {
 	const navigate = useNavigate();
 
-	const { id, is_admin } = getUserData();
+	const userData = getUserData();
+	const isAdmin = userData?.is_admin;
 
 	const [open, setOpen] = useState(false);
 
@@ -31,14 +32,14 @@ const Company = () => {
 
 	const [loadingDelete, setLoadingDelete] = useState(false);
 
-	const columns = [...company_table_cols];
+	let columns = [...company_table_cols];
 
-	const handleGetCompanies = async (uid, is_admin) => {
+	const handleGetCompanies = async ({ id, is_admin }) => {
 		setCompaniesLoading(true);
 		try {
 			let res;
 			if (is_admin) {
-				res = await getCompaniesByUser(3);
+				res = await getCompaniesByUser(id);
 			} else {
 				res = await getAllCompanies();
 			}
@@ -64,7 +65,7 @@ const Company = () => {
 			await deleteCompany(nit);
 			openNotification("success", "Empresa eliminada!", "La empresa se ha eliminado correctamente");
 			// hot reload
-			handleGetCompanies(id, is_admin);
+			handleGetCompanies(userData);
 		} catch (e) {
 			console.log("[Company] - Error eliminando empresa", e.response?.data?.message);
 			openNotification("error", "Error eliminando empresa.", e.response?.data?.message);
@@ -73,29 +74,53 @@ const Company = () => {
 		}
 	};
 
-	useEffect(() => {
-		if (is_admin) {
-			columns.push({
-				title: "Acción",
-				key: "action",
-				width: "5%",
-				render: (_, record) => (
-					<Button
-						disabled={loadingDelete}
-						onClick={() => {
-							handleDeleteCompany(record.nit);
-						}}
-						danger
-						ghost
-						icon={<DeleteOutlined />}
-					/>
-				),
-			});
-		}
+	const reloadCompanies = () => {
+		handleGetCompanies(userData);
+	};
 
-		handleGetCompanies(id, is_admin);
+	if (isAdmin) {
+		columns.push({
+			title: "Acción",
+			key: "action",
+			width: "5%",
+			render: (_, record) => (
+				<Popconfirm
+					title="Borrar empresa"
+					description="Seguro que quieres borrar esta empresa?"
+					onConfirm={(e) => {
+						e.stopPropagation();
+						handleDeleteCompany(record.nit);
+					}}
+					onCancel={(e) => e.stopPropagation()}
+					okButtonProps={{ loading: loadingDelete }}
+					icon={
+						<QuestionCircleOutlined
+							style={{
+								color: "red",
+							}}
+						/>
+					}
+					okText="Sí"
+					cancelText="No"
+					placement="bottom"
+				>
+					<Button
+						onClick={(e) => e.stopPropagation()}
+						danger
+						type="text"
+						shape="circle"
+						icon={<DeleteOutlined />}
+						loading={loadingDelete}
+						size="small"
+					/>
+				</Popconfirm>
+			),
+		});
+	}
+	useEffect(() => {
+		handleGetCompanies(userData);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [id]);
+	}, []);
 
 	const handleClickRow = (row) => {
 		const { key } = row;
@@ -105,8 +130,8 @@ const Company = () => {
 	return (
 		<>
 			<TableTitle
-				title={`${is_admin ? "Tus" : "Todas las"} empresas`}
-				allowAction={is_admin}
+				title={`${isAdmin ? "Tus" : "Todas las"} empresas`}
+				allowAction={isAdmin}
 				btnTitle="Crear Empresa"
 				icon={<PlusOutlined />}
 				btnAction={() => {
@@ -126,8 +151,9 @@ const Company = () => {
 				className="mt-8"
 				columns={columns}
 				dataSource={companies}
+				rowClassName="cursor-pointer"
 			/>
-			<CompanyForm open={open} setOpen={setOpen} />
+			<CompanyForm open={open} setOpen={setOpen} reloadCompanies={reloadCompanies} />
 		</>
 	);
 };
