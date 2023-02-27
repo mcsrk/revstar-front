@@ -1,3 +1,13 @@
+# Revstar Test Front
+ 
+
+## Link to production: [https://revstar-front-test.netlify.app/](https://revstar-front-test.netlify.app/)
+Please be patient on first request. I'm not that fancy on cloud servers.
+
+# Default users: 
+### Username: `Admin`, Password: `123456`
+### Username: `Normal Client`, Password, `123456`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
