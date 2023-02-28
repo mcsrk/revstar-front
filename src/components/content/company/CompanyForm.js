@@ -1,17 +1,16 @@
 import { useState } from "react";
-import { Form, Input, InputNumber, Modal, Select, Spin } from "antd";
+import { Form, Input, InputNumber, Modal, Spin } from "antd";
 
 // Services
 import { createCompany } from "services/companyService";
+import { getUserData } from "services/userService";
 
 // Utils
 import { openNotification } from "utils/utils";
 
 // Constants
-import prefix from "constants/company-form";
-import { getUserData } from "services/userService";
-
-const { Option } = Select;
+import loadingMessages from "constants/loading-messages";
+import { phonePrefixOptions } from "constants/company-form";
 
 const CompanyForm = ({ open, setOpen, reloadCompanies }) => {
 	const [form] = Form.useForm();
@@ -39,26 +38,14 @@ const CompanyForm = ({ open, setOpen, reloadCompanies }) => {
 		const companyBody = {
 			nit: values.nit,
 			owner_id: id,
-			name: values.name,
+			name: values.name.trim(),
 			// Nullable fields
-			address: values?.address ?? null,
+			address: values?.address?.trim() ?? null,
 			phone: values?.phone ? "+" + values.prefix + values?.phone : null,
 		};
 
 		handleCreateCompany(companyBody);
 	};
-
-	const prefixSelector = (
-		<Form.Item name="prefix" noStyle>
-			<Select className="w-20">
-				{prefix.map(({ val, tag }) => (
-					<Option key={val} value={val}>
-						{tag}
-					</Option>
-				))}
-			</Select>
-		</Form.Item>
-	);
 
 	return (
 		<Modal
@@ -83,7 +70,7 @@ const CompanyForm = ({ open, setOpen, reloadCompanies }) => {
 					});
 			}}
 		>
-			<Spin spinning={createLoading}>
+			<Spin spinning={createLoading} tip={loadingMessages.createCompany}>
 				<Form
 					form={form}
 					layout="vertical"
@@ -127,7 +114,7 @@ const CompanyForm = ({ open, setOpen, reloadCompanies }) => {
 					<Form.Item name="phone" label="Teléfono móvil">
 						<InputNumber
 							maxLength={10}
-							addonBefore={prefixSelector}
+							addonBefore={phonePrefixOptions}
 							style={{
 								width: "100%",
 							}}

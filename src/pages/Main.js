@@ -1,16 +1,29 @@
+import { useEffect } from "react";
 import loadable from "@loadable/component";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { Layout } from "antd";
 
-import { Route, Routes } from "react-router-dom";
+// Utils
+import { getToken } from "services/userService";
 
-// Constants
-const { Content } = Layout;
 // Componets
 const Company = loadable(() => import("../components/content/company/Company"));
 const Inventory = loadable(() => import("../components/content/inventory/Inventory"));
 const NotFound = loadable(() => import("../components/content/notFound/NotFound"));
 
+// Constants
+const { Content } = Layout;
+
 const Main = ({ colorBgContainer }) => {
+	const navigate = useNavigate();
+	const token = getToken();
+
+	useEffect(() => {
+		// When open the base url in a new tab, rigth after login, redirects to companies.
+		if (token) navigate("/companies", { replace: true });
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [token]);
+
 	return (
 		<Content className="px-6 py-6 sm:px-12">
 			<div

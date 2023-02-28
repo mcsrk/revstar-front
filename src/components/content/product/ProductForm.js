@@ -8,6 +8,7 @@ import { createProduct } from "services/productService";
 import { openNotification } from "utils/utils";
 
 // Constanst
+import loadingMessages from "constants/loading-messages";
 const { TextArea } = Input;
 
 const ProductForm = ({ open, setOpen, reloadProducts, inventoryId }) => {
@@ -40,7 +41,7 @@ const ProductForm = ({ open, setOpen, reloadProducts, inventoryId }) => {
 			stock: values.stock,
 			description: values?.description ?? null,
 		};
-		console.log(productBody);
+
 		handleCreateProduct(inventoryId, productBody);
 	};
 
@@ -67,7 +68,7 @@ const ProductForm = ({ open, setOpen, reloadProducts, inventoryId }) => {
 					});
 			}}
 		>
-			<Spin spinning={createLoading}>
+			<Spin spinning={createLoading} tip={loadingMessages.createProduct}>
 				<Form
 					form={form}
 					layout="vertical"

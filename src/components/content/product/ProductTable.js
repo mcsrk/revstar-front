@@ -85,7 +85,7 @@ const ProductsTable = ({ inventoryId, name }) => {
 				}}
 			/>
 
-			<Table className="mt-8" columns={iventory_table_cols} dataSource={products} loading={productsLoading} />
+			<Table bordered className="mt-8" columns={iventory_table_cols} dataSource={products} loading={productsLoading} />
 			<ProductForm open={open} setOpen={setOpen} reloadProducts={reloadProducts} inventoryId={inventoryId} />
 		</>
 	);

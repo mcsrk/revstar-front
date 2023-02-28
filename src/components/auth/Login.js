@@ -12,6 +12,9 @@ import { loginUser } from "services/userService";
 // Utils
 import { openNotification } from "utils/utils";
 
+// Constants
+import loadingMessages from "constants/loading-messages";
+
 const Login = ({ setCurrentTab }) => {
 	const navigate = useNavigate();
 
@@ -44,7 +47,7 @@ const Login = ({ setCurrentTab }) => {
 				linkName="Registrate"
 				onClick={() => setCurrentTab("SIGNUP")}
 			/>
-			<Spin spinning={loginLoading}>
+			<Spin spinning={loginLoading} tip={loadingMessages.login}>
 				<Form form={form} layout="vertical" name="login" className="w-full" onFinish={onFinish} autoComplete="off">
 					<Form.Item
 						name="username"
