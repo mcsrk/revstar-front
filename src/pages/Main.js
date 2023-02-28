@@ -1,7 +1,10 @@
+import { useEffect } from "react";
 import loadable from "@loadable/component";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { Layout } from "antd";
 
-import { Route, Routes } from "react-router-dom";
+// Utils
+import { getToken } from "services/userService";
 
 // Constants
 const { Content } = Layout;
@@ -11,6 +14,14 @@ const Inventory = loadable(() => import("../components/content/inventory/Invento
 const NotFound = loadable(() => import("../components/content/notFound/NotFound"));
 
 const Main = ({ colorBgContainer }) => {
+	const navigate = useNavigate();
+	const token = getToken();
+
+	useEffect(() => {
+		if (token) navigate("/companies", { replace: true });
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [token]);
+
 	return (
 		<Content className="px-6 py-6 sm:px-12">
 			<div
