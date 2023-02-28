@@ -26,13 +26,14 @@ const Company = () => {
 	const userData = getUserData();
 	const isAdmin = userData?.is_admin;
 
-	const [open, setOpen] = useState(false);
-	const [openEdit, setOpenEdit] = useState(false);
-
 	const [companiesLoading, setCompaniesLoading] = useState(false);
 	const [companies, setCompanies] = useState([]);
 
+	const [deletingKey, setDeletingKey] = useState(null);
 	const [loadingDelete, setLoadingDelete] = useState(false);
+
+	const [openCreate, setOpenCreate] = useState(false);
+	const [openEdit, setOpenEdit] = useState(false);
 
 	const [companyNit, setCompanyNit] = useState(null);
 
@@ -63,6 +64,7 @@ const Company = () => {
 	};
 
 	const handleDeleteCompany = async (nit) => {
+		setDeletingKey(nit);
 		setLoadingDelete(true);
 		try {
 			await deleteCompany(nit);
@@ -74,6 +76,7 @@ const Company = () => {
 			openNotification("error", "Error eliminando empresa.", e.response?.data?.message);
 		} finally {
 			setLoadingDelete(false);
+			setDeletingKey(null);
 		}
 	};
 
@@ -90,6 +93,7 @@ const Company = () => {
 				<Space>
 					<Button
 						onClick={(e) => {
+							// Stops "Selected company row -> show invenotries" event
 							e.stopPropagation();
 							setCompanyNit(record.nit);
 							setOpenEdit(true);
@@ -104,6 +108,7 @@ const Company = () => {
 						title="Borrar empresa"
 						description="Seguro que quieres borrar esta empresa?"
 						onConfirm={(e) => {
+							// Stops "Selected company row -> show invenotries" event
 							e.stopPropagation();
 							handleDeleteCompany(record.nit);
 						}}
@@ -127,6 +132,10 @@ const Company = () => {
 							shape="circle"
 							icon={<DeleteOutlined />}
 							disabled={loadingDelete}
+							loading={
+								// Only displays loading animation to the icon of the row that's being deleted
+								loadingDelete && deletingKey === record?.nit
+							}
 							size="small"
 						/>
 					</Popconfirm>
@@ -152,7 +161,7 @@ const Company = () => {
 				btnTitle="Crear Empresa"
 				icon={<PlusOutlined />}
 				btnAction={() => {
-					setOpen(true);
+					setOpenCreate(true);
 				}}
 			/>
 
@@ -171,7 +180,7 @@ const Company = () => {
 				dataSource={companies}
 				rowClassName="cursor-pointer"
 			/>
-			<CompanyForm open={open} setOpen={setOpen} reloadCompanies={reloadCompanies} />
+			<CompanyForm open={openCreate} setOpen={setOpenCreate} reloadCompanies={reloadCompanies} />
 			<EditCompanyForm
 				open={openEdit}
 				setOpen={setOpenEdit}
