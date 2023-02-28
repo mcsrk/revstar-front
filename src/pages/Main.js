@@ -6,18 +6,20 @@ import { Layout } from "antd";
 // Utils
 import { getToken } from "services/userService";
 
-// Constants
-const { Content } = Layout;
 // Componets
 const Company = loadable(() => import("../components/content/company/Company"));
 const Inventory = loadable(() => import("../components/content/inventory/Inventory"));
 const NotFound = loadable(() => import("../components/content/notFound/NotFound"));
+
+// Constants
+const { Content } = Layout;
 
 const Main = ({ colorBgContainer }) => {
 	const navigate = useNavigate();
 	const token = getToken();
 
 	useEffect(() => {
+		// When open the base url in a new tab, rigth after login, redirects to companies.
 		if (token) navigate("/companies", { replace: true });
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [token]);
