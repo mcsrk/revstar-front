@@ -9,6 +9,15 @@ export const getAllCompanies = async () => {
 	}
 };
 
+export const getCompanyByNit = async (nit) => {
+	try {
+		const response = await createRequest().get(`/companies/${nit}`);
+		return response.data;
+	} catch (e) {
+		return throwErrors(e);
+	}
+};
+
 export const getCompaniesByUser = async (userId) => {
 	try {
 		const response = await createRequest().get(`/users/${userId}/companies`);
@@ -27,9 +36,9 @@ export const createCompany = async (companyBody) => {
 	}
 };
 
-export const updateCompany = async (companyId, companyBody) => {
+export const updateCompany = async (nit, companyBody) => {
 	try {
-		const response = await createRequest().put(`/companies/${companyId}`, companyBody);
+		const response = await createRequest().put(`/companies/${nit}`, companyBody);
 		return response.data;
 	} catch (e) {
 		return throwErrors(e);

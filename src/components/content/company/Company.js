@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Button, Popconfirm, Table } from "antd";
-import { DeleteOutlined, PlusOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import { Button, Popconfirm, Space, Table } from "antd";
+import { DeleteOutlined, PlusOutlined, QuestionCircleOutlined, EditOutlined } from "@ant-design/icons";
 
 // Router
 import { useNavigate } from "react-router";
@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 // Componets
 import TableTitle from "components/common/TableTitle";
 import CompanyForm from "./CompanyForm";
+import EditCompanyForm from "./EditCompanyForm";
 
 // Services
 import { deleteCompany, getAllCompanies, getCompaniesByUser } from "services/companyService";
@@ -26,11 +27,14 @@ const Company = () => {
 	const isAdmin = userData?.is_admin;
 
 	const [open, setOpen] = useState(false);
+	const [openEdit, setOpenEdit] = useState(false);
 
 	const [companiesLoading, setCompaniesLoading] = useState(false);
 	const [companies, setCompanies] = useState([]);
 
 	const [loadingDelete, setLoadingDelete] = useState(false);
+
+	const [companyNit, setCompanyNit] = useState(null);
 
 	let columns = [...company_table_cols];
 
@@ -50,7 +54,6 @@ const Company = () => {
 			}));
 
 			setCompanies(updatedRes);
-			openNotification("success", "Empresas obtenidas!");
 		} catch (e) {
 			console.log("[Company] - Error obteniendo empresas", e.response?.data?.message);
 			openNotification("error", "Error obteniendo empresas.", e.response?.data?.message);
@@ -65,7 +68,7 @@ const Company = () => {
 			await deleteCompany(nit);
 			openNotification("success", "Empresa eliminada!", "La empresa se ha eliminado correctamente");
 			// hot reload
-			handleGetCompanies(userData);
+			handleGetCompanies(userData, isAdmin);
 		} catch (e) {
 			console.log("[Company] - Error eliminando empresa", e.response?.data?.message);
 			openNotification("error", "Error eliminando empresa.", e.response?.data?.message);
@@ -75,7 +78,7 @@ const Company = () => {
 	};
 
 	const reloadCompanies = () => {
-		handleGetCompanies(userData);
+		handleGetCompanies(userData, isAdmin);
 	};
 
 	if (isAdmin) {
@@ -84,41 +87,55 @@ const Company = () => {
 			key: "action",
 			width: "5%",
 			render: (_, record) => (
-				<Popconfirm
-					title="Borrar empresa"
-					description="Seguro que quieres borrar esta empresa?"
-					onConfirm={(e) => {
-						e.stopPropagation();
-						handleDeleteCompany(record.nit);
-					}}
-					onCancel={(e) => e.stopPropagation()}
-					okButtonProps={{ loading: loadingDelete }}
-					icon={
-						<QuestionCircleOutlined
-							style={{
-								color: "red",
-							}}
-						/>
-					}
-					okText="Sí"
-					cancelText="No"
-					placement="bottom"
-				>
+				<Space>
 					<Button
-						onClick={(e) => e.stopPropagation()}
-						danger
+						onClick={(e) => {
+							e.stopPropagation();
+							setCompanyNit(record.nit);
+							setOpenEdit(true);
+						}}
 						type="text"
 						shape="circle"
-						icon={<DeleteOutlined />}
-						loading={loadingDelete}
+						icon={<EditOutlined />}
+						disabled={loadingDelete}
 						size="small"
 					/>
-				</Popconfirm>
+					<Popconfirm
+						title="Borrar empresa"
+						description="Seguro que quieres borrar esta empresa?"
+						onConfirm={(e) => {
+							e.stopPropagation();
+							handleDeleteCompany(record.nit);
+						}}
+						onCancel={(e) => e.stopPropagation()}
+						okButtonProps={{ loading: loadingDelete }}
+						icon={
+							<QuestionCircleOutlined
+								style={{
+									color: "red",
+								}}
+							/>
+						}
+						okText="Sí"
+						cancelText="No"
+						placement="bottom"
+					>
+						<Button
+							onClick={(e) => e.stopPropagation()}
+							danger
+							type="text"
+							shape="circle"
+							icon={<DeleteOutlined />}
+							disabled={loadingDelete}
+							size="small"
+						/>
+					</Popconfirm>
+				</Space>
 			),
 		});
 	}
 	useEffect(() => {
-		handleGetCompanies(userData);
+		handleGetCompanies(userData, isAdmin);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -140,6 +157,7 @@ const Company = () => {
 			/>
 
 			<Table
+				bordered
 				onRow={(row) => {
 					return {
 						onClick: () => {
@@ -154,6 +172,13 @@ const Company = () => {
 				rowClassName="cursor-pointer"
 			/>
 			<CompanyForm open={open} setOpen={setOpen} reloadCompanies={reloadCompanies} />
+			<EditCompanyForm
+				open={openEdit}
+				setOpen={setOpenEdit}
+				reloadCompanies={reloadCompanies}
+				companyNit={companyNit}
+				setCompanyNit={setCompanyNit}
+			/>
 		</>
 	);
 };
