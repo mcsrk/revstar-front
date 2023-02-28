@@ -11,6 +11,9 @@ import { createUser } from "services/userService";
 // Utils
 import { openNotification } from "utils/utils";
 
+// Constants
+import loadingMessages from "constants/loading-messages";
+
 const Signup = ({ setCurrentTab }) => {
 	const [form] = Form.useForm();
 	const [signupLoading, setSignupLoading] = useState(false);
@@ -49,7 +52,7 @@ const Signup = ({ setCurrentTab }) => {
 				linkName="Ingresa"
 				onClick={() => setCurrentTab("LOGIN")}
 			/>
-			<Spin spinning={signupLoading}>
+			<Spin spinning={signupLoading} tip={loadingMessages.signup}>
 				<Form
 					form={form}
 					layout="vertical"
